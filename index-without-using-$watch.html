@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Paging</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/Site.css">
+</head>
+<body ng-app="MyApp">
+    <div class="col-lg-8 col-md-8 col-lg-offset-2 col-md-offset-2">
+        <div ng-controller="PaginationCtrl">
+            <div class="row">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in items | limitFromTo:paging.getCurrentPage():paging.getItemsPerPage()">
+                            <td>{{item.id}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.description}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="text-center">
+                    <ul class="pagination">
+                        <li ng-class="{ disabled: paging.currentPage == 0 }">
+                            <a href="#" ng-click="paging.prevPage()">« Prev</a>
+                        </li>
+                        <li ng-repeat="n in paging.range()" ng-class="{active: n == paging.currentPage}" ng-click="paging.setPage(n)">
+                            <a href="#">{{n+1}}</a>
+                        </li>
+                        <li ng-class="{ disabled: paging.currentPage == paging.pageCount() }">
+                            <a href="#" ng-click="paging.nextPage()">Next »</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/angular.js"></script>
+    <script src="js/paginationApp.js"></script>
+    <script src="js/app-without-using-$watch.js"></script>
+</body>
+</html>

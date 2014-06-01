@@ -40,38 +40,37 @@ pagination.filter('limitFromTo', function () {
 });
 
 pagination.factory('PagerFactory', ['$filter', function ($filter) {
-    var paging = {};    
+    var paging = {};
 
     paging.createNew = function (itemsPerPage) {
 
         itemsPerPage = itemsPerPage === undefined ? 5 : itemsPerPage;
 
-        var temp = {
-            itemsPerPage: itemsPerPage,
-            currentPage: 0,
-            dataLength: 0
-        };
-
         var tempItems = {};
-
         tempItems.createNew = function (items) {
             var localItems = items;
             var localTemp = {};
 
             localTemp.limitFromTo = function () {
-                var items = [];
+                var tempArray = [];
 
-                if (Array.isArray(localItems)) {
-                    var from = temp.currentPage * temp.itemsPerPage;
-                    var to = from + temp.itemsPerPage;
+                if (!Array.isArray(localItems)) return localItems;
 
-                    items = $filter('limitFromTo')(localItems, from, to);
-                }
+                var from = temp.currentPage * temp.itemsPerPage;
+                var to = from + temp.itemsPerPage;
 
-                return items;
+                tempArray = $filter('limitFromTo')(localItems, from, to);
+
+                return tempArray;
             };
 
             return localTemp;
+        };
+
+        var temp = {
+            itemsPerPage: itemsPerPage,
+            currentPage: 0,
+            dataLength: 0
         };
 
         temp.getItems = function (items) {
@@ -113,6 +112,14 @@ pagination.factory('PagerFactory', ['$filter', function ($filter) {
 
         temp.setPage = function (n) {
             temp.currentPage = n;
+        };
+
+        temp.getCurrentPage = function () {
+            return temp.currentPage * temp.itemsPerPage;
+        };
+
+        temp.getItemsPerPage = function () {
+            return temp.getCurrentPage() + temp.itemsPerPage;
         };
 
         return temp;
