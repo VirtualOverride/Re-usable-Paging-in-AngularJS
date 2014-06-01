@@ -60,13 +60,13 @@ pagination.factory('PagerFactory', ['$filter', function ($filter) {
 
             localTemp.limitFromTo = function () {
                 var items = [];
+                
+                if (!Array.isArray(localItems)) return localItems;
 
-                if (Array.isArray(localItems)) {
-                    var from = temp.currentPage * temp.itemsPerPage;
-                    var to = from + temp.itemsPerPage;
+                var from = temp.currentPage * temp.itemsPerPage;
+                var to = from + temp.itemsPerPage;
 
-                    items = $filter('limitFromTo')(localItems, from, to);
-                }
+                items = $filter('limitFromTo')(localItems, from, to);
 
                 return items;
             };
