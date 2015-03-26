@@ -1,0 +1,8 @@
+{
+  "name": "event-creator",
+  "version": "0.0.0",
+  "main": "server/app.js",
+  "dependencies": {
+    
+  }
+}
